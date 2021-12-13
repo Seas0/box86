@@ -865,7 +865,7 @@ static void free_contextargv()
 }
 
 #ifndef ANDROID
-const char **environ __attribute__((weak)) = NULL;
+char **environ __attribute__((weak)) = NULL;
 #endif
 
 int main(int argc, const char **argv, const char **env) {
@@ -1069,6 +1069,7 @@ int main(int argc, const char **argv, const char **env) {
         FreeCollection(&ld_preload);
         return -1;
     }
+#ifndef ANDROID
     if(!FileExist(my_context->argv[0], IS_FILE|IS_EXECUTABLE)) {
         printf_log(LOG_NONE, "Error: %s is not an executable file\n", my_context->argv[0]);
         free_contextargv();
@@ -1076,6 +1077,7 @@ int main(int argc, const char **argv, const char **env) {
         FreeCollection(&ld_preload);
         return -1;
     }
+#endif
     if(!(my_context->fullpath = realpath(my_context->argv[0], NULL)))
         my_context->fullpath = strdup(my_context->argv[0]);
     FILE *f = fopen64(my_context->argv[0], "rb");

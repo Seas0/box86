@@ -298,7 +298,11 @@ dynablock_t *AddNewDynablock(dynablocklist_t* dynablocks, uintptr_t addr, int* c
 }
 
 //TODO: move this to dynrec_arm.c and track allocated structure to avoid memory leak
+#ifndef ANDROID
 static __thread struct __jmp_buf_tag dynarec_jmpbuf;
+#else
+static __thread jmp_buf dynarec_jmpbuf;
+#endif
 
 void cancelFillBlock()
 {

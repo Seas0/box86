@@ -1294,7 +1294,7 @@ void RunElfFini(elfheader_t* h, x86emu_t *emu)
     if(!h || h->fini_done)
         return;
     h->fini_done = 1;
-#ifdef ANDROID
+#if defined(ANDROID) && !defined(ANDROID_COMP)
     // TODO: Fix .fini_array on Android
     printf_log(LOG_DEBUG, "Android does not support Fini for %s\n", ElfName(h));
 #else

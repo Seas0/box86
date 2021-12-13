@@ -478,6 +478,14 @@ static void* findon_exitFct(void* fct)
 int32_t my___libc_start_main(x86emu_t* emu, int *(main) (int, char * *, char * *), 
     int argc, char * * ubp_av, void (*init) (void), void (*fini) (void), 
     void (*rtld_fini) (void), void (* stack_end)); // implemented in x86run_private.c
+#ifdef ANDROID
+// for android we need to use the bionic libc implementation of __libc_init
+void my___libc_init(x86emu_t* emu,
+    void* raw_args __unused, void (*onexit)(void) __unused,
+    int (*main)(int, char**, char**),
+    void const * const structors __unused); // implemented in x86run_private.c
+#endif
+
 EXPORT void my___libc_init_first(x86emu_t* emu, int argc, char* arg0, char** b)
 {
     // do nothing specific for now
@@ -2856,10 +2864,17 @@ EXPORT int my_semctl(x86emu_t* emu, int semid, int semnum, int cmd, union semun 
   return  ((iFiiiV_t)f)(semid, semnum, cmd, b);
 }
 
+#ifndef ANDROID
 EXPORT int my_on_exit(x86emu_t* emu, void* f, void* args)
 {
     return on_exit(findon_exitFct(f), args);
 }
+#else
+EXPORT int my_on_exit(x86emu_t* emu, void* f, void* args)
+{
+    return atexit(findon_exitFct(f)/*, args*/);
+}
+#endif
 
 
 EXPORT char** my_environ = NULL;
