@@ -9,4 +9,8 @@
 
 #include "config.h"
 
+const char *config_dir = "/etc/box86/";
+
+
+
 // only a dummy file now, wait for implementation
