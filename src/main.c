@@ -518,7 +518,7 @@ int GatherEnv(char*** dest, const char** env, const char* prog)
 {
     // Add all but BOX86_* environnement
     // but add 2 for default BOX86_PATH and BOX86_LD_LIBRARY_PATH
-    const char** p = env;    
+    const char** p = env;
     int idx = 0;
     int path = 0;
     int ld_path = 0;
@@ -901,6 +901,8 @@ int main(int argc, const char **argv, const char **env) {
     }
     // init random seed
     srandom(time(NULL));
+
+    // config search and load
 
     // check BOX86_LOG debug level
     LoadLogEnv();

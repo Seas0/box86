@@ -47,7 +47,7 @@ void** my_GetGTKDisplay()
 {
     if(gdk_display)
         return &gdk_display;
-    
+
     char* name = getGDKX11LibName();
     library_t * lib = GetLibInternal(name?name:"libgtk-1.2.so.0");
     if(!lib) return &gdk_display;   // mmm, that will crash later probably

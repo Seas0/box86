@@ -62,7 +62,7 @@ int getrand(int maxval)
 {
     if(maxval<1024) {
         return ((random()&0x7fff)*maxval)/0x7fff;
-    } 
+    }
         uint64_t r = random();
         r = (r*maxval) / RAND_MAX;
         return r;
@@ -214,7 +214,7 @@ void FreeBox86Context(box86context_t** context)
 #endif
     if(!context)
         return;
-    
+
     if(--(*context)->forked >= 0)
         return;
 
@@ -246,7 +246,7 @@ void FreeBox86Context(box86context_t** context)
         free(ctx->deferedInitList);
 
     free(ctx->argv);
-    
+
     for (int i=0; i<ctx->envc; ++i)
         free(ctx->envv[i]);
     free(ctx->envv);

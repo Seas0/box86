@@ -20,7 +20,7 @@ KHASH_MAP_IMPL_INT(mapoffsets, cstr_t);
 lib_t *NewLibrarian(box86context_t* context, int ownlibs)
 {
     lib_t *maplib = (lib_t*)calloc(1, sizeof(lib_t));
-    
+
     maplib->mapsymbols = NewMapSymbols();
     maplib->weaksymbols = NewMapSymbols();
     maplib->localsymbols = NewMapSymbols();
@@ -36,7 +36,7 @@ lib_t *NewLibrarian(box86context_t* context, int ownlibs)
 }
 static void freeLibraryRecurse(lib_t *maplib, x86emu_t *emu, int idx, char *freed, library_t* owner) {
     if (freed[idx]) return; // Already freed
-    
+
     library_t *lib = maplib->libraries[idx];
     if(lib==owner) return;  // don't free owner of maplib
     freed[idx] = 1; // Avoid infinite loops
@@ -61,7 +61,7 @@ static void freeLibraryRecurse(lib_t *maplib, x86emu_t *emu, int idx, char *free
             return;
         }
     }
-    
+
     library_t *ptr = maplib->libraries[idx];
     if(maplib->ownlibs/* && (!maplib->owner || ptr->maplib==maplib)*/)
         Free1Library(&ptr, emu);
@@ -75,13 +75,13 @@ void FreeLibrarian(lib_t **maplib, x86emu_t *emu)
 
     library_t* owner = (*maplib)->owner;
     (*maplib)->owner = NULL;    // to avoid recursive free...
-    
+
     if((*maplib)->ownlibs && (*maplib)->libsz) {
         printf_log(LOG_DEBUG, "Closing %d libs from maplib %p\n", (*maplib)->libsz, *maplib);
         char *freed = (char*)calloc((*maplib)->libsz, sizeof(char));
         if (!freed) {
             printf_log(LOG_INFO, "Failed to malloc freed table, using old algorithm (a crash is likely)\n");
-            for (int i=(*maplib)->libsz-1; i>=0; --i) 
+            for (int i=(*maplib)->libsz-1; i>=0; --i)
                 if((*maplib)->libraries[i]!=owner) {
                     printf_log(LOG_DEBUG, "Unloading %s\n", (*maplib)->libraries[i]->name);
                     Free1Library(&(*maplib)->libraries[i], emu);
@@ -311,7 +311,7 @@ int AddNeededLib_init(lib_t* maplib, needed_libs_t* neededlibs, library_t* depli
     if(mainelf==-1) {
         // It's a native libs, nothing else to do
     } else {
-        // it's an emulated lib, 
+        // it's an emulated lib,
         // load dependancies and launch init sequence
         if(LoadNeededLibs(box86->elfs[mainelf], maplib, &lib->needed, lib, 0, bindnow, box86, emu)) {
             printf_log(LOG_DEBUG, "Failure to Add dependant lib => fail\n");
@@ -335,7 +335,7 @@ int AddNeededLib_init(lib_t* maplib, needed_libs_t* neededlibs, library_t* depli
     }
     // success
     printf_log(LOG_DEBUG, "Created lib and added to maplib => success\n");
-    
+
     return 0;
 }
 

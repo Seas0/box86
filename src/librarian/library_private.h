@@ -60,7 +60,7 @@ typedef struct library_s {
     wrappedlib_get_t    getnoweak;  // get only non weak symbol
     wrappedlib_get_t    getlocal;
     union {
-        wlib_t  w;     
+        wlib_t  w;
         nlib_t  n;
     }                   priv;  // private lib data
     box86context_t      *context;   // parent context

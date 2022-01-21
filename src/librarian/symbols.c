@@ -55,7 +55,7 @@ static int SameVersion(versymbol_t* s, int ver, const char* vername)
     if(s->vername && !strcmp(s->vername, vername))
         return 1;
     return 0;
-    
+
 }
 
 static versymbol_t* FindVersionLocal(versymbols_t* s)
@@ -219,7 +219,7 @@ const char* GetSymbolName(kh_mapsymbols_t* mapsymbols, void* p, uintptr_t* start
 {
     uintptr_t addr = (uintptr_t)p;
     versymbols_t *s;
-    kh_foreach_value_ref(mapsymbols, s, 
+    kh_foreach_value_ref(mapsymbols, s,
         for(int i=0; i<s->sz; ++i)
             if((s->syms[i].sym.offs >= addr) && (s->syms[i].sym.offs+s->syms[i].sym.sz<addr)) {
                 *start  = s->syms[i].sym.offs;
